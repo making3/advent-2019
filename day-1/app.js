@@ -1,5 +1,4 @@
-const fs = require('fs');
-const readline = require('readline');
+const readlines = require('../readlines');
 
 const calc = (num) => Math.floor(num / 3) - 2;
 
@@ -16,25 +15,15 @@ const calcTotalFuel = (num) => {
   }
   return 0;
 };
-const fileStream = fs.createReadStream('./input');
 
-(async () => {
-  const rl = readline.createInterface({
-    input: fileStream,
-    crlfDelay: Infinity,
-  });
+let initialFuel2 = 0;
+let totalFuel2 = 0;
 
-  let initialFuel = 0;
-  let totalFuel = 0;
-
-  rl.on('line', (line) => {
+readlines(
+  (line) => {
     const parsed = parseInt(line, 10);
-    initialFuel += calc(parsed);
-    totalFuel += calcTotalFuel(parsed);
-  });
-
-  rl.once('close', () => {
-    console.log('Part 1: ', initialFuel);
-    console.log('Part 2: ', totalFuel);
-  });
-})();
+    initialFuel2 += calc(parsed);
+    totalFuel2 += calcTotalFuel(parsed);
+  },
+  (printResults) => printResults([initialFuel2, totalFuel2]),
+);
